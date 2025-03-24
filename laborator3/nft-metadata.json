@@ -1,0 +1,15 @@
+{
+	"name": "Robinhood",
+	"description": "A Brave Robinhood that will guide you through the darkest nights.",
+	"image": "https://gateway.irys.xyz/9yuCmqQ8y9hsk8xbHXZeNPmALHYzeFekvtcXQgZnmCVE",
+	"attributes": [
+		{
+			"trait_type": "Rarity",
+			"value": "Rare"
+		},
+		{
+			"trait_type": "Type",
+			"value": "Celestial"
+		}
+	]
+}
