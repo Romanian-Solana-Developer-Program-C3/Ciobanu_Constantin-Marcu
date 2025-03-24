@@ -1,31 +1,49 @@
-import {
-	clusterApiUrl,
-	Connection,
-	Keypair,
-	LAMPORTS_PER_SOL,
-} from '@solana/web3.js'
 import 'dotenv/config'
+
 import {
 	airdropIfRequired,
 	getKeypairFromEnvironment,
 } from '@solana-developers/helpers'
-import '@coral-xyz/anchor'
+import { Connection, LAMPORTS_PER_SOL, clusterApiUrl } from '@solana/web3.js'
 
-async function checkBalance() {
-	const keypair = getKeypairFromEnvironment('SECRET_KEY')
-	const conn = new Connection(clusterApiUrl('devnet'))
+async function checkBalanceAndAirdrop() {
+	try {
+		const keypair = getKeypairFromEnvironment('SECRET_KEY_2')
+		const pubKey = keypair.publicKey
+		console.log('Public Key: ', pubKey)
 
-	const pubKey = keypair.publicKey
-	console.log(`My Wallet address: ${pubKey.toBase58()}`)
+		const connection = new Connection(clusterApiUrl('devnet'))
+		const balanceInLamports = await connection.getBalance(pubKey)
+		console.log(
+			pubKey.toString() +
+				' has balance ' +
+				balanceInLamports / LAMPORTS_PER_SOL +
+				' SOL'
+		)
 
-	const balanceInLamports = await conn.getBalance(pubKey)
-	console.log(`Balance in lamports: ${balanceInLamports}`)
+		if (balanceInLamports < 5 * LAMPORTS_PER_SOL) {
+			console.log('Wallet balance below 5 SOL, initiating airdrop')
 
-	console.log(
-		`💰 Address ${pubKey.toBase58()} has ${
-			balanceInLamports / LAMPORTS_PER_SOL
-		} SOL`
-	)
+			try {
+				await airdropIfRequired(
+					connection,
+					pubKey,
+					LAMPORTS_PER_SOL,
+					5 * LAMPORTS_PER_SOL
+				)
+
+				console.log('Airdrop successful!')
+
+				const newBalance = await connection.getBalance(pubKey)
+				console.log('New balance: ', newBalance / LAMPORTS_PER_SOL)
+			} catch (e) {
+				console.error('Error during airdrop: ', e)
+			}
+		}
+	} catch (e) {
+		console.error('Error checking balance: ', e)
+	}
 }
 
-await checkBalance()
+console.log('Initiating check balance...')
+checkBalanceAndAirdrop()

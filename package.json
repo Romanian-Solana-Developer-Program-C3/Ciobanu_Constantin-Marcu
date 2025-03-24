@@ -1,19 +1,26 @@
 {
-  "name": "solana-labs",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "dependencies": {
-    "@solana-developers/helpers": "^2.8.1",
-    "@solana/spl-token": "^0.4.13",
-    "@solana/web3.js": "^1.98.0",
-    "dotenv": "^16.4.7"
-  }
+	"name": "solana-labs",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"generate-keypair": "ts-node-esm ./laborator1/generate-keypair.ts",
+		"check-balance": "ts-node-esm ./laborator1/check-balance.ts",
+		"send": "ts-node-esm ./laborator1/send.ts"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"type": "commonjs",
+	"dependencies": {
+		"@solana-developers/helpers": "^2.8.1",
+		"@solana/spl-token": "^0.4.13",
+		"@solana/web3.js": "^1.98.0",
+		"dotenv": "^16.4.7"
+	},
+	"devDependencies": {
+		"@types/node": "^22.13.13",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.8.2"
+	}
 }
